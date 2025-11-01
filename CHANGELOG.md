@@ -2,12 +2,14 @@
 
 All notable changes to this project will be documented in this file.
 
-The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
-and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [0.1.0] - 2024-12-28
 
+[0.1.0]: https://github.com/lomiafrica/lomi./releases/tag/pi-spi-sdk-v0.1.0
+
 ### Added
+
 - Initial release of PI-SPI SDK
 - Full TypeScript support with generated types from OpenAPI spec
 - OAuth2 + mTLS authentication support
@@ -22,18 +24,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Bulk payment requests
   - Immediate payments (Paiements)
   - Bulk payments
-  - Fund returns (Retours Fonds)
+  - Fund returns (Retours de Fonds)
   - Cancellation requests (Demandes Annulation)
 
 ### Fixed
+
 - Empty type definitions in generated models
 - Type safety improvements for error handling
-- Package name corrected to `@lomi/pi-spi-sdk`
-
-### Documentation
-- Comprehensive README with examples
-- API reference documentation
-- Setup guide for developers
-
-[0.1.0]: https://github.com/lomiafrica/lomi./releases/tag/pi-spi-sdk-v0.1.0
-

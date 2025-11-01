@@ -181,16 +181,13 @@ export class QueryBuilder {
         result[`${field}[exists]`] = String(value);
       } else {
         // Other operators use bracket notation
-        result[`${field}[${operator}]`] = Array.isArray(value)
-          ? value.join(',')
-          : String(value);
+        result[`${field}[${operator}]`] = Array.isArray(value) ? value.join(',') : String(value);
       }
     }
 
     // Add sort
     if (this.sortField) {
-      result.sort =
-        this.sortOrder === 'desc' ? `-${this.sortField}` : this.sortField;
+      result.sort = this.sortOrder === 'desc' ? `-${this.sortField}` : this.sortField;
     }
 
     return result;
@@ -235,4 +232,3 @@ export class QueryBuilder {
     ].includes(value);
   }
 }
-

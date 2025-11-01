@@ -61,15 +61,9 @@ export class PiSpiNotFoundError extends PiSpiError {
 export class PiSpiRateLimitError extends PiSpiError {
   public readonly retryAfter?: number;
 
-  constructor(
-    message: string,
-    statusCode: number,
-    statusText: string,
-    retryAfter?: number
-  ) {
+  constructor(message: string, statusCode: number, statusText: string, retryAfter?: number) {
     super(message, statusCode, statusText);
     this.name = 'PiSpiRateLimitError';
     this.retryAfter = retryAfter;
   }
 }
-

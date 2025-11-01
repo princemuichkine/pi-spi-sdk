@@ -2,5 +2,8 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-export type WebhookModificationRequest = Record<string, unknown>;
+export type WebhookModificationRequest = {
+    callbackUrl?: string;
+    alias?: string;
+};
 

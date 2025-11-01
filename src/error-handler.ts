@@ -110,4 +110,3 @@ export function handleApiError(error: unknown): never {
   // Re-throw if it's not an API error
   throw error;
 }
-

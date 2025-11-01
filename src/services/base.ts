@@ -8,9 +8,7 @@ export abstract class BaseService {
   /**
    * Wrap an async operation with error handling
    */
-  protected async execute<T>(
-    operation: () => Promise<T>
-  ): Promise<T> {
+  protected async execute<T>(operation: () => Promise<T>): Promise<T> {
     try {
       return await operation();
     } catch (error) {
@@ -18,4 +16,3 @@ export abstract class BaseService {
     }
   }
 }
-

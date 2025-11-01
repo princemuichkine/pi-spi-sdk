@@ -2,5 +2,13 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-export type CompteTransfertIntraRequest = Record<string, unknown>;
+export type CompteTransfertIntraRequest = {
+    txId: string;
+    montant: number;
+    motif?: string;
+    payeurNumero?: string;
+    payeNumero?: string;
+    payeurAlias?: string;
+    payeAlias?: string;
+};
 

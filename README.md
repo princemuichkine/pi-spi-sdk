@@ -1,87 +1,59 @@
 # @lomi/pi-spi-sdk
 
-> **Powered by [lomi.](https://lomi.africa)** - The open-source payment processing platform powering francophone West African businesses
+> **Powered by [lomi.](https://lomi.africa)** - The open-source payment processing platform powering West African businesses.
 
 Official TypeScript SDK for PI-SPI (La Plateforme d'Interopérabilité du Service de Paiement Instantané) API - a payment interoperability platform by the BCEAO (Banque Centrale des États de l'Afrique de l'Ouest).
 
-**Built with ❤️ by the lomi. team** to make integrating with PI-SPI seamless and developer-friendly for fellow fintechs.
-
-## About SPI
-
-**PI-SPI enables cross-border transactions within the West African Economic and Monetary Union (UEMOA)**:
-
-- ✅ **8 countries**: Benin, Burkina Faso, Côte d'Ivoire, Guinea-Bissau, Mali, Niger, Senegal, Togo
-- ✅ **Single currency**: XOF (West African CFA Franc)
-- ✅ **Seamless transfers**: Send payments across borders using aliases
-- ✅ **Real-time processing**: Instant payment confirmation
-
-
----
-
 ## Installation
 
-### Option 1: Using the lomi. CLI (Recommended)
-
-Get started quickly with our CLI tool:
-
 ```bash
-# Install the CLI globally
-npm install -g @lomi/pi-spi-sdk
-
-# Initialize a new PI-SPI project
-lomi. pi-spi init
-```
-
-This will:
-- Create a project structure with examples
-- Install `@lomi/pi-spi-sdk` and dependencies
-- Set up environment variables
-- Generate TypeScript/JavaScript examples
-
-### Option 2: Manual Installation
-
-```bash
-# Using pnpm (recommended)
 pnpm add @lomi/pi-spi-sdk
-
-# Using npm
+# or
 npm install @lomi/pi-spi-sdk
-
-# Using yarn
+# or
 yarn add @lomi/pi-spi-sdk
 ```
 
-## Quick Start
+## About PI-SPI
+
+PI-SPI enables **cross-border transactions** within the West African Economic and Monetary Union (UEMOA):
+
+- **8 countries**: Benin, Burkina Faso, Côte d'Ivoire, Guinea-Bissau, Mali, Niger, Senegal, Togo
+- **Single currency**: XOF (West African CFA Franc)
+- **Real-time processing**: Instant payment confirmation
+- **Alias-based payments**: Send payments without sharing account numbers
+
+**Transaction Types Supported:**
+PI-SPI supports seamless interoperability between different payment systems:
+
+- **Bank-to-Bank**: Payments between traditional bank accounts across UEMOA countries
+- **Bank-to-Wallet**: Payments from bank accounts to mobile money wallets (MTN, Orange Money, Moov, etc.)
+- **Wallet-to-Bank**: Payments from mobile wallets to bank accounts
+- **Wallet-to-Wallet**: Payments between mobile money wallets, regardless of provider
+
+All transaction types work seamlessly through the unified PI-SPI platform, enabling businesses and individuals to send and receive payments across different financial institutions and mobile money providers within the UEMOA region.
+
+**Limitations**: XOF currency only, UEMOA region only (not global).
+
+## Usage Example
 
 ```typescript
 import { PiSpiSDK } from '@lomi/pi-spi-sdk';
 
-// Initialize the SDK
 const sdk = new PiSpiSDK({
   baseUrl: 'https://sandbox.api.pi-bceao.com/piz/v1',
   accessToken: 'your-oauth2-access-token',
-  // For mTLS, provide certificate paths (if required)
-  // clientCert: '/path/to/client.crt',
-  // clientKey: '/path/to/client.key',
 });
 
 // Get account balance
-const account = await sdk.comptes.getAccount('123456789');
-console.log('Account balance:', account.solde);
-
-// List account operations
-const operations = await sdk.comptes.listOperations({
-  comptePayeur: '123456789',
-  page: 1,
-  size: 20,
-});
+const account = await sdk.comptes.getAccount('CIC2344256727788288822');
 
 // Create a payment
 const payment = await sdk.paiements.create({
-  comptePayeur: '123456789',
-  payeAlias: 'user@example.com',
-  montant: 10000,
-  motif: 'Payment for services',
+  comptePayeur: 'CIC2344256727788288822',
+  payeAlias: '8b1b2499-3e50-435b-b757-ac7a83d8aa7f', // SHID alias
+  montant: 150000, // 1,500 XOF (amounts are in centimes)
+  motif: 'Paiement de services',
 });
 ```
 
@@ -90,149 +62,185 @@ const payment = await sdk.paiements.create({
 - ✅ **Type-safe**: Full TypeScript support with generated types from OpenAPI spec
 - ✅ **OAuth2 + mTLS**: Secure authentication support
 - ✅ **Comprehensive API coverage**: All PI-SPI endpoints available
-- ✅ **Pagination & Filtering**: Built-in helpers for querying data
 - ✅ **Error handling**: Custom error classes with detailed messages
 - ✅ **Auto-generated**: Code generated from official OpenAPI specification
+- ✅ **Developer-friendly**: Comprehensive utilities and constants included
+
+## Utilities & Constants
+
+### Constants
+
+```typescript
+import { PI_SPI_ENDPOINTS, PAYMENT_STATUS, CURRENCY } from '@lomi/pi-spi-sdk';
+
+// Use constants instead of magic strings
+const baseUrl = PI_SPI_ENDPOINTS.SANDBOX;
+if (payment.statut === PAYMENT_STATUS.IRREVOCABLE) {
+  // Payment is confirmed
+}
+```
+
+### Utilities
+
+```typescript
+import { formatAmount, xofToCentimes, isValidAccountNumber } from '@lomi/pi-spi-sdk';
+
+// Format amounts for display
+const displayAmount = formatAmount(150000); // "1 500 XOF"
+
+// Convert XOF to centimes
+const centimes = xofToCentimes(1500); // 150000
+
+// Validate inputs
+if (isValidAccountNumber(accountNumber)) {
+  // Valid account number
+}
+```
 
 ## API Reference
 
 ### Authentication
 
-The PI-SPI API uses OAuth2 with mTLS for authentication. Configure your credentials:
-
 ```typescript
 const sdk = new PiSpiSDK({
-  baseUrl: 'https://sandbox.api.pi-bceao.com/piz/v1',
+  baseUrl: process.env.PI_SPI_BASE_URL,
   accessToken: process.env.PI_SPI_ACCESS_TOKEN,
-  // Optional: Configure mTLS certificates
+  // Optional: mTLS certificates
   // clientCert: process.env.PI_SPI_CLIENT_CERT,
   // clientKey: process.env.PI_SPI_CLIENT_KEY,
-  // caCert: process.env.PI_SPI_CA_CERT,
 });
 ```
 
 ### Services
 
-#### Accounts (Comptes)
+#### Accounts
 
 ```typescript
-// Get account details
-const account = await sdk.comptes.getAccount('123456789');
+// Get account balance and details
+// Endpoint: GET /comptes/{numero}
+const account = await sdk.comptes.getAccount('CIC2344256727788288822');
+// Returns: {
+//   type: 'CACC', // Account type (CACC = Current Account)
+//   numero: 'CIC2344256727788288822',
+//   solde: 150000000, // Balance in centimes (1,500,000 XOF)
+//   statut: 'OUVERT', // Status: OUVERT, BLOQUE, or CLOTURE
+//   dateOuverture: '2023-02-21T15:30:01.250Z'
+// }
 
-// List account operations
-const operations = await sdk.comptes.listOperations({
-  comptePayeur: '123456789',
-  statut: 'IRREVOCABLE',
+// List operations with pagination
+await sdk.comptes.listOperations({
+  comptePayeur: 'CIC2344256727788288822',
   page: 1,
   size: 20,
 });
 
-// Transfer between accounts
-const transfer = await sdk.comptes.transfer({
-  comptePayeur: '123456789',
-  comptePaye: '987654321',
-  montant: 50000,
-  motif: 'Internal transfer',
+// Transfer between accounts (using account numbers)
+await sdk.comptes.transfer({
+  comptePayeur: 'CIC2344256727788288822',
+  comptePaye: 'SNC2344256727788288822',
+  montant: 150000, // 1,500 XOF
+});
+
+// Transfer using aliases
+await sdk.comptes.transfer({
+  payeurAlias: '8b1b2499-3e50-435b-b757-ac7a83d8aa7f',
+  payeAlias: '4r5ty499-3e50-435b-b757-ac7a83d67juio',
+  montant: 150000,
+});
+```
+
+#### Payments
+
+```typescript
+// Create immediate payment (no confirmation)
+await sdk.paiements.create({
+  comptePayeur: 'CIC2344256727788288822',
+  payeAlias: '9b1b2499-3e50-435b-b757-ac7a83d8aa8c', // SHID alias
+  montant: 150000, // 1,500 XOF
+  motif: 'Paiement de services',
+});
+
+// Create payment with confirmation
+await sdk.paiements.create({
+  comptePayeur: 'CIC2344256727788288822',
+  payeAlias: '8b1b2499-3e50-435b-b757-ac7a83d8aa7f',
+  montant: 3000000, // 30,000 XOF
+  confirmation: true,
+});
+
+// Get payment details
+await sdk.paiements.get('23552722');
+
+// List payments with filters
+await sdk.paiements.list({
+  comptePayeur: 'CIC2344256727788288822',
+  statut: 'IRREVOCABLE',
 });
 ```
 
 #### Aliases
 
 ```typescript
-// Create an alias
-const alias = await sdk.alias.create({
-  compte: '123456789',
-  alias: 'merchant@example.com',
-  type: 'EMAIL',
-});
+import { AliasType } from '@lomi/pi-spi-sdk';
 
-// List aliases
-const aliases = await sdk.alias.list({
-  compte: '123456789',
-  page: 1,
-  size: 20,
+// Create SHID alias (available for all client types: P, C, B, G)
+// SHID is a system-generated UUID (36 characters)
+const shidAlias = await sdk.alias.create({
+  compte: 'CIC2344256727788288822',
+  type: AliasType.SHID,
 });
+// Returns: { cle: '8b1b2499-3e50-435b-b757-ac7a83d8aa7f', type: 'SHID', ... }
+
+// Create MCOD alias (business clients only: C, B, G)
+// MCOD is a merchant code for USSD payments
+const mcodAlias = await sdk.alias.create({
+  compte: 'SNC2344256727788288822',
+  type: AliasType.MCOD,
+});
+// Returns: { cle: 'SNF00_2E4TY', type: 'MCOD', ... }
+
+// List all aliases for an account
+await sdk.alias.list('CIC2344256727788288822');
 
 // Delete an alias
-await sdk.alias.delete('merchant@example.com');
+await sdk.alias.delete('8b1b2499-3e50-435b-b757-ac7a83d8aa7f');
 ```
 
-#### Payments (Paiements)
+#### Payment Requests
 
 ```typescript
-// Create immediate payment
-const payment = await sdk.paiements.create({
-  comptePayeur: '123456789',
-  payeAlias: 'customer@example.com',
-  montant: 10000,
-  motif: 'Payment for order #123',
+// Create payment request (bill/invoice)
+await sdk.demandesPaiement.create({
+  comptePaye: 'CIC2344256727788288822',
+  payeurAlias: '9b1b3499-3e50-435b-b757-ac7a83d8aa96', // Customer's alias
+  montant: 150000, // 1,500 XOF
+  categorie: '401', // Invoice category
+  dateLimitePaiement: '2023-12-31T23:59:59.999Z',
+  motif: 'Facture électricité mars 2023',
+  refDocType: 'CINV',
+  refDocNumero: 'FACT-ELEC-202303',
 });
 
-// Get payment details
-const paymentDetails = await sdk.paiements.get(payment.txId);
+// Accept a payment request
+await sdk.demandesPaiement.accept('RTP-2023-001');
 
-// List payments
-const payments = await sdk.paiements.list({
-  comptePayeur: '123456789',
-  statut: 'IRREVOCABLE',
-  page: 1,
-  size: 20,
-});
-
-// Bulk payments
-const bulkPayment = await sdk.paiements.createBulk({
-  comptePayeur: '123456789',
-  transactions: [
-    { txId: 'tx1', payeAlias: 'user1@example.com', montant: 1000 },
-    { txId: 'tx2', payeAlias: 'user2@example.com', montant: 2000 },
-  ],
-});
+// Reject a payment request
+await sdk.demandesPaiement.reject('RTP-2023-001');
 ```
 
-#### Payment Requests (Demandes de Paiement)
+#### Webhooks
 
 ```typescript
-// Create payment request
-const request = await sdk.demandesPaiement.create({
-  comptePaye: '123456789',
-  payeurAlias: 'customer@example.com',
-  montant: 5000,
-  motif: 'Invoice #456',
-  dateLimitePaiement: '2024-12-31T23:59:59Z',
-});
-
-// Accept payment request
-await sdk.demandesPaiement.accept(request.idDemandePaiement);
-
-// Reject payment request
-await sdk.demandesPaiement.reject(request.idDemandePaiement);
-```
-
-#### Webhooks (Notifications)
-
-```typescript
-// Register a webhook
-const webhook = await sdk.webhooks.create({
+await sdk.webhooks.create({
   url: 'https://your-domain.com/webhooks/pi-spi',
-  events: ['PAIEMENT_RECU', 'PAIEMENT_ENVOYE'],
+  events: ['PAIEMENT_RECU'],
 });
-
-// List webhooks
-const webhooks = await sdk.webhooks.list();
-
-// Update webhook
-await sdk.webhooks.update(webhook.id, {
-  url: 'https://your-domain.com/webhooks/pi-spi-updated',
-  events: ['PAIEMENT_RECU', 'PAIEMENT_ENVOYE', 'PAIEMENT_REJETE'],
-});
-
-// Delete webhook
-await sdk.webhooks.delete(webhook.id);
+await sdk.webhooks.list();
+await sdk.webhooks.update(webhookId, { url: 'https://updated-url.com' });
+await sdk.webhooks.delete(webhookId);
 ```
 
 ### Error Handling
-
-The SDK provides custom error classes for different error types:
 
 ```typescript
 import { PiSpiError, PiSpiValidationError, PiSpiAuthError } from '@lomi/pi-spi-sdk';
@@ -244,15 +252,11 @@ try {
     console.error('Validation error:', error.errors);
   } else if (error instanceof PiSpiAuthError) {
     console.error('Authentication error:', error.message);
-  } else if (error instanceof PiSpiError) {
-    console.error('API error:', error.message, error.statusCode);
   }
 }
 ```
 
-### Pagination & Filtering
-
-The SDK provides helpers for building query parameters:
+### Filtering & Pagination
 
 ```typescript
 import { QueryBuilder } from '@lomi/pi-spi-sdk';
@@ -260,7 +264,6 @@ import { QueryBuilder } from '@lomi/pi-spi-sdk';
 const query = new QueryBuilder()
   .filter('statut', 'eq', 'IRREVOCABLE')
   .filter('montant', 'gte', 10000)
-  .filter('dateCreation', 'gte', '2024-01-01T00:00:00Z')
   .sort('-dateCreation')
   .page(1)
   .size(50)
@@ -269,37 +272,57 @@ const query = new QueryBuilder()
 const payments = await sdk.paiements.list(query);
 ```
 
-### Supported Filter Operators
+**Supported operators**: `eq`, `ne`, `gt`, `gte`, `lt`, `lte`, `in`, `contains`, `notContains`, `beginsWith`, `endsWith`, `exists`
 
-- `eq` - Equal to
-- `ne` - Not equal to
-- `gt` - Greater than
-- `gte` - Greater than or equal
-- `lt` - Less than
-- `lte` - Less than or equal
-- `in` - In list
-- `contains` - Contains value
-- `notContains` - Does not contain value
-- `beginsWith` - Begins with value
-- `endsWith` - Ends with value
-- `exists` - Field exists
+## Alias Types
 
-## Contributing
+PI-SPI supports three types of account aliases:
 
-Please refer to the main [CONTRIBUTING.md](https://github.com/lomiafrica/lomi./blob/master/CONTRIBUTING.md) in the monorepo.
+### SHID (System-Hosted Identifier)
+
+- **Format**: UUID (36 characters), e.g., `8b1b2499-3e50-435b-b757-ac7a83d8aa7f`
+- **Generation**: System-generated when created
+- **Available for**: All client types (P, C, B, G)
+- **Use case**: General purpose payment address
+
+### MCOD (Merchant Code)
+
+- **Format**: Alphanumeric code, e.g., `SNF00_2E4TY`
+- **Generation**: System-generated when created
+- **Available for**: Business clients only (C, B, G)
+- **Use case**: USSD payment support
+
+### MBNO (Mobile Number)
+
+- **Format**: Phone number format
+- **Available for**: Individual clients only (P)
+- **Use case**: Mobile money integration
+
+**Example:**
+
+```typescript
+import { AliasType, getAvailableAliasTypes, isValidAliasType } from '@lomi/pi-spi-sdk';
+
+// Get available alias types for a business client
+const businessAliasTypes = getAvailableAliasTypes('B'); // Returns: ['SHID', 'MCOD']
+
+// Check if a string is a valid alias type
+if (isValidAliasType('SHID')) {
+  // Valid alias type
+}
+```
+
+## Documentation
+
+- **[Developer Guide](./DEVELOPER_GUIDE.md)** - For contributors and advanced usage
+- **[Changelog](./CHANGELOG.md)** - Version history
 
 ## Support
 
-For PI-SPI API support, contact: [pisfn-sandbox@bceao.int](mailto:pisfn-sandbox@bceao.int)
-
-For SDK support, contact: [hello@lomi.africa](mailto:hello@lomi.africa)
+- **PI-SPI API**: [pisfn-sandbox@bceao.int](mailto:pisfn-sandbox@bceao.int)
+- **SDK Support**: [hello@lomi.africa](mailto:hello@lomi.africa)
+- **Documentation**: [https://developers.pi-bceao.com](https://developers.pi-bceao.com)
 
 ## License
 
-This project is licensed under the [MIT License](LICENSE).
-
-## Links
-
-- [PI-SPI Developer Documentation](https://developers.pi-bceao.com)
-- [BCEAO Official Website](https://www.bceao.int)
-- [lomi. Official Website](https://lomi.africa)
+MIT

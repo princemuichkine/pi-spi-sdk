@@ -38,10 +38,10 @@ export type DemandePaiementRequest = (({
     /**
      * Remise appliquée sur la facture
      */
-    remise: {
-        montant?: number;
-        taux?: number;
-    };
+    remise?: {
+    montant?: number;
+    taux?: number;
+}
 } & DemandePaiementRequestBase) | ({
     categorie: DemandePaiementRequest.categorie;
     /**
@@ -90,10 +90,10 @@ export type DemandePaiementRequest = (({
     /**
      * Remise appliquée sur la facture - la remise n'est pas appliquée après la date limite de paiement
      */
-    remise: {
-        montant?: number;
-        taux?: number;
-    };
+    remise?: {
+    montant?: number;
+    taux?: number;
+}
 } & DemandePaiementRequestBase));
 export namespace DemandePaiementRequest {
     export enum categorie {

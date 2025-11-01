@@ -1,6 +1,6 @@
 /**
  * Main PI-SPI SDK class
- * 
+ *
  * This is the entry point for interacting with the PI-SPI API.
  * Provides organized access to all API services.
  */
@@ -17,7 +17,7 @@ import { PaiementsEnMasseService } from './services/paiements-en-masse';
 import { RetoursFondsService } from './services/retours-fonds';
 import { DemandesAnnulationService } from './services/demandes-annulation';
 
-// OpenAPI will be imported from generated code after running npm run generate
+// OpenAPI will be imported from generated code after running pnpm run generate
 // For now, we'll use a dynamic import approach
 let OpenAPI: any;
 
@@ -93,9 +93,9 @@ export class PiSpiSDK {
 
   /**
    * Initialize the PI-SPI SDK
-   * 
+   *
    * @param config - SDK configuration
-   * 
+   *
    * @example
    * ```typescript
    * const sdk = new PiSpiSDK({
@@ -115,7 +115,7 @@ export class PiSpiSDK {
         TOKEN: config.accessToken,
         HEADERS: {
           ...config.headers,
-          'Authorization': `Bearer ${config.accessToken}`,
+          Authorization: `Bearer ${config.accessToken}`,
         },
       };
     } catch {
@@ -125,7 +125,7 @@ export class PiSpiSDK {
         TOKEN: config.accessToken,
         HEADERS: {
           ...config.headers,
-          'Authorization': `Bearer ${config.accessToken}`,
+          Authorization: `Bearer ${config.accessToken}`,
         },
       };
     }
@@ -151,7 +151,7 @@ export class PiSpiSDK {
       OpenAPI.TOKEN = token;
       OpenAPI.HEADERS = {
         ...OpenAPI.HEADERS,
-        'Authorization': `Bearer ${token}`,
+        Authorization: `Bearer ${token}`,
       };
     }
   }
@@ -166,4 +166,3 @@ export class PiSpiSDK {
 
 // Export error handler for advanced use cases
 export { handleApiError };
-

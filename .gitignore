@@ -4,8 +4,4 @@ dist/
 .DS_Store
 .env
 .env.local
-
-# Generation scripts (kept private)
-scripts/
-openapi.json
-
+/cli

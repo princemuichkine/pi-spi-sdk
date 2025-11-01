@@ -47,9 +47,9 @@ export type DemandePaiementEnMasseRequest = {
          * Remise appliquée sur la facture - la remise n'est pas appliquée après la date limite de paiement
          */
         remise?: {
-            montant?: number;
-            taux?: number;
-        };
+    montant?: number;
+    taux?: number;
+}
         /**
          * La date limite à laquelle le payeur doit avoir effectué le paiement.
          *
