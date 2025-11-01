@@ -1,8 +1,8 @@
 # @lomi/pi-spi-sdk
 
-> **Powered by [lomi.](https://lomi.africa)** - The open-source payment processing platform powering West African businesses.
+> **This repository is a contribution from open-source payment processing company [lomi.](https://lomi.africa)**
 
-Official TypeScript SDK for PI-SPI (La Plateforme d'Interopérabilité du Service de Paiement Instantané) API - a payment interoperability platform by the BCEAO (Banque Centrale des États de l'Afrique de l'Ouest).
+TypeScript SDK for PI-SPI (La Plateforme d'Interopérabilité du Service de Paiement Instantané) Business API - a payment interoperability platform by BCEAO (Banque Centrale des États de l'Afrique de l'Ouest).
 
 ## Installation
 
@@ -23,7 +23,7 @@ PI-SPI enables **cross-border transactions** within the West African Economic an
 - **Real-time processing**: Instant payment confirmation
 - **Alias-based payments**: Send payments without sharing account numbers
 
-**Transaction Types Supported:**
+**Transaction types supported:**
 PI-SPI supports seamless interoperability between different payment systems:
 
 - **Bank-to-Bank**: Payments between traditional bank accounts across UEMOA countries
@@ -35,7 +35,7 @@ All transaction types work seamlessly through the unified PI-SPI platform, enabl
 
 **Limitations**: XOF currency only, UEMOA region only (not global).
 
-## Usage Example
+## Usage example
 
 ```typescript
 import { PiSpiSDK } from '@lomi/pi-spi-sdk';
@@ -68,18 +68,6 @@ const payment = await sdk.paiements.create({
 
 ## Utilities & Constants
 
-### Constants
-
-```typescript
-import { PI_SPI_ENDPOINTS, PAYMENT_STATUS, CURRENCY } from '@lomi/pi-spi-sdk';
-
-// Use constants instead of magic strings
-const baseUrl = PI_SPI_ENDPOINTS.SANDBOX;
-if (payment.statut === PAYMENT_STATUS.IRREVOCABLE) {
-  // Payment is confirmed
-}
-```
-
 ### Utilities
 
 ```typescript
@@ -97,7 +85,19 @@ if (isValidAccountNumber(accountNumber)) {
 }
 ```
 
-## API Reference
+### Constants
+
+```typescript
+import { PI_SPI_ENDPOINTS, PAYMENT_STATUS, CURRENCY } from '@lomi/pi-spi-sdk';
+
+// Use constants instead of magic strings
+const baseUrl = PI_SPI_ENDPOINTS.SANDBOX;
+if (payment.statut === PAYMENT_STATUS.IRREVOCABLE) {
+  // Payment is confirmed
+}
+```
+
+## Reference
 
 ### Authentication
 
@@ -206,7 +206,7 @@ await sdk.alias.list('CIC2344256727788288822');
 await sdk.alias.delete('8b1b2499-3e50-435b-b757-ac7a83d8aa7f');
 ```
 
-#### Payment Requests
+#### Payment requests
 
 ```typescript
 // Create payment request (bill/invoice)
@@ -240,7 +240,7 @@ await sdk.webhooks.update(webhookId, { url: 'https://updated-url.com' });
 await sdk.webhooks.delete(webhookId);
 ```
 
-### Error Handling
+### Error handling
 
 ```typescript
 import { PiSpiError, PiSpiValidationError, PiSpiAuthError } from '@lomi/pi-spi-sdk';
@@ -256,7 +256,7 @@ try {
 }
 ```
 
-### Filtering & Pagination
+### Filtering & pagination
 
 ```typescript
 import { QueryBuilder } from '@lomi/pi-spi-sdk';
@@ -274,7 +274,7 @@ const payments = await sdk.paiements.list(query);
 
 **Supported operators**: `eq`, `ne`, `gt`, `gte`, `lt`, `lte`, `in`, `contains`, `notContains`, `beginsWith`, `endsWith`, `exists`
 
-## Alias Types
+## Alias types
 
 PI-SPI supports three types of account aliases:
 
