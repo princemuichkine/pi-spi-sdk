@@ -48,7 +48,7 @@ const payment = await sdk.paiements.create({
 
 ## Features
 
-This SDK provides full TypeScript support with types generated from the official OpenAPI specification, ensuring type safety throughout your integration. It includes secure authentication through OAuth2 and mTLS, comprehensive coverage of all Π-SPI endpoints, and custom error classes with detailed messages for easier debugging. The codebase is auto-generated from the official specification and includes developer-friendly utilities and constants to streamline your implementation.
+This SDK provides full TypeScript support with types generated from the official OpenAPI specification, ensuring type safety throughout your integration. It includes secure authentication through OAuth2 and mTLS, comprehensive coverage of all SPI endpoints, and custom error classes with detailed messages for easier debugging. The codebase is auto-generated from the official specification and includes developer-friendly utilities and constants to streamline your implementation.
 
 ## Utilities & Constants
 
@@ -262,7 +262,7 @@ The QueryBuilder supports these operators: `eq` (equals), `ne` (not equals), `gt
 
 ## Alias types
 
-Π-SPI supports three types of account aliases that allow users to send and receive payments without sharing their full account numbers:
+The SPI supports three types of account aliases that allow users to send and receive payments without sharing their full account numbers:
 
 **SHID (System-Hosted Identifier)** is a system-generated UUID (36 characters, such as `8b1b2499-3e50-435b-b757-ac7a83d8aa7f`) available for all client types and serves as a general-purpose payment address.
 
@@ -291,7 +291,7 @@ if (isValidAliasType('SHID')) {
 
 ## Support
 
-- **Π-SPI API**: [pisfn-sandbox@bceao.int](mailto:pisfn-sandbox@bceao.int)
+- **π-SPI API**: [pisfn-sandbox@bceao.int](mailto:pisfn-sandbox@bceao.int)
 - **SDK Support**: [hello@lomi.africa](mailto:hello@lomi.africa)
 - **Documentation**: [https://developers.pi-bceao.com](https://developers.pi-bceao.com)
 
