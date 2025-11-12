@@ -1,5 +1,5 @@
 {
-  "name": "@lomi/pi-spi-sdk",
+  "name": "pi-spi-sdk",
   "version": "0.1.0",
   "description": "Official TypeScript SDK for PI-SPI Business API - Built by lomi. for the West African fintech community",
   "type": "module",

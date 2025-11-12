@@ -10,11 +10,11 @@ It enables instant fund transfers between different financial institutions acros
 ## Installation
 
 ```bash
-pnpm add @lomi/pi-spi-sdk
+pnpm add pi-spi-sdk
 # or
-npm install @lomi/pi-spi-sdk
+npm install pi-spi-sdk
 # or
-yarn add @lomi/pi-spi-sdk
+yarn add pi-spi-sdk
 ```
 π-SPI enables **cross-border transactions** within the West African Economic and Monetary Union (UEMOA), which spans eight countries: Benin, Burkina Faso, Côte d'Ivoire, Guinea-Bissau, Mali, Niger, Senegal, and Togo. 
 
@@ -27,7 +27,7 @@ The infrastructure operates on a single currency, the XOF (West African CFA Fran
 ## Usage example
 
 ```typescript
-import { PiSpiSDK } from '@lomi/pi-spi-sdk';
+import { PiSpiSDK } from 'pi-spi-sdk';
 
 const sdk = new PiSpiSDK({
   baseUrl: 'https://sandbox.api.pi-bceao.com/piz/v1',
@@ -55,7 +55,7 @@ This SDK provides full TypeScript support with types generated from the official
 ### Utilities
 
 ```typescript
-import { formatAmount, xofToCentimes, isValidAccountNumber } from '@lomi/pi-spi-sdk';
+import { formatAmount, xofToCentimes, isValidAccountNumber } from 'pi-spi-sdk';
 
 // Format amounts for display
 const displayAmount = formatAmount(150000); // "1 500 XOF"
@@ -72,7 +72,7 @@ if (isValidAccountNumber(accountNumber)) {
 ### Constants
 
 ```typescript
-import { PI_SPI_ENDPOINTS, PAYMENT_STATUS, CURRENCY } from '@lomi/pi-spi-sdk';
+import { PI_SPI_ENDPOINTS, PAYMENT_STATUS, CURRENCY } from 'pi-spi-sdk';
 
 // Use constants instead of magic strings
 const baseUrl = PI_SPI_ENDPOINTS.SANDBOX;
@@ -165,7 +165,7 @@ await sdk.paiements.list({
 #### Aliases
 
 ```typescript
-import { AliasType } from '@lomi/pi-spi-sdk';
+import { AliasType } from 'pi-spi-sdk';
 
 // Create SHID alias (available for all client types: P, C, B, G)
 // SHID is a system-generated UUID (36 characters)
@@ -227,7 +227,7 @@ await sdk.webhooks.delete(webhookId);
 ### Error handling
 
 ```typescript
-import { PiSpiError, PiSpiValidationError, PiSpiAuthError } from '@lomi/pi-spi-sdk';
+import { PiSpiError, PiSpiValidationError, PiSpiAuthError } from 'pi-spi-sdk';
 
 try {
   await sdk.paiements.create({ ... });
@@ -245,7 +245,7 @@ try {
 The SDK includes a QueryBuilder that allows you to construct complex queries with multiple filters, sorting, and pagination. You can chain filter conditions using various operators, sort results in ascending or descending order (use `-` prefix for descending), and control pagination with page number and size parameters.
 
 ```typescript
-import { QueryBuilder } from '@lomi/pi-spi-sdk';
+import { QueryBuilder } from 'pi-spi-sdk';
 
 const query = new QueryBuilder()
   .filter('statut', 'eq', 'IRREVOCABLE')
@@ -273,7 +273,7 @@ The SPI supports three types of account aliases that allow users to send and rec
 **Example:**
 
 ```typescript
-import { AliasType, getAvailableAliasTypes, isValidAliasType } from '@lomi/pi-spi-sdk';
+import { AliasType, getAvailableAliasTypes, isValidAliasType } from 'pi-spi-sdk';
 
 // Get available alias types for a business client
 const businessAliasTypes = getAvailableAliasTypes('B'); // Returns: ['SHID', 'MCOD']

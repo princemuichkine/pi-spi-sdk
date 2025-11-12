@@ -1,7 +1,7 @@
 /**
  * Main entry point for PI-SPI SDK
  *
- * @module @lomi/pi-spi-sdk
+ * @module pi-spi-sdk
  */
 
 // Export main SDK class
